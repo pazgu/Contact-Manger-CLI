@@ -19,7 +19,7 @@ A production-ready, command-line interface (CLI) application for managing contac
 - JSON (Data Persistence)
 
 ## 🚀 How to Run
-1. Clone the repo: `git clone <your-repo-url>`
+1. Clone the repo: `git clone https://github.com/pazgu/contact-manger.git`
 2. Install dependencies: `npm install`
 3. View available commands: `node contacts.js help`
 4. Run tests with coverage: `npm test -- --coverage`
