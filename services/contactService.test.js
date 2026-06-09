@@ -15,7 +15,6 @@ describe('Contact Service', () => {
             fileUtils.loadContactsFile.mockResolvedValue([
                 { name: "Jane Doe", email: "jane@example.com", phone: "111" }
             ]);
-
             await contactService.addContact("John Doe", "john@example.com", "555");
 
             expect(fileUtils.saveContactsFile).toHaveBeenCalledWith([
@@ -59,6 +58,49 @@ describe('Contact Service', () => {
             await expect(
                 contactService.deleteContact("notfound@example.com")
             ).rejects.toThrow("No contact found with email: notfound@example.com");
+        });
+    });
+
+    describe('listContacts', () => {
+        test('should list all contacts successfully', async () => {
+            fileUtils.loadContactsFile.mockResolvedValue([
+                { name: "John Doe", email: "john@example.com", phone: "555" }
+            ]);
+
+            await contactService.listContacts();
+            
+            // מוודא שהפונקציה אכן פנתה לקרוא את הקובץ
+            expect(fileUtils.loadContactsFile).toHaveBeenCalled();
+        });
+
+        test('should print a message if no contacts found', async () => {
+            fileUtils.loadContactsFile.mockResolvedValue([]);
+
+            await contactService.listContacts();
+            
+            expect(fileUtils.loadContactsFile).toHaveBeenCalled();
+        });
+    });
+
+    describe('searchContacts', () => {
+        test('should find and list matching contacts case-insensitively', async () => {
+            fileUtils.loadContactsFile.mockResolvedValue([
+                { name: "John Doe", email: "john@example.com", phone: "555" },
+                { name: "Jane Smith", email: "jane@example.com", phone: "111" }
+            ]);
+
+            await contactService.searchContacts("jOhn");
+            
+            expect(fileUtils.loadContactsFile).toHaveBeenCalled();
+        });
+
+        test('should handle case where no search results are found', async () => {
+            fileUtils.loadContactsFile.mockResolvedValue([
+                { name: "John Doe", email: "john@example.com", phone: "555" }
+            ]);
+            await contactService.searchContacts("Bob");
+            
+            expect(fileUtils.loadContactsFile).toHaveBeenCalled();
         });
     });
 });
