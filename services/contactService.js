@@ -26,27 +26,23 @@ async function listContacts() {
         return;
     }
 
-    console.log("All Contacts");
+    console.log("---All Contacts---");
     contacts.forEach((c, index) => {
         console.log(`${index + 1}. ${c.name} - ${c.email} - ${c.phone}`);
     });
 }
 
-/**
- * חיפוש לפי שם או אימייל (Case-insensitive)
- */
 async function searchContacts(query) {
     const contacts = await loadContactsFile();
     console.log(`✓ Loaded ${contacts.length} contacts\n`);
 
     const lowerQuery = query.toLowerCase();
-    // סינון אסינכרוני מיועל
     const results = contacts.filter(c => 
         c.name.toLowerCase().includes(lowerQuery) || 
         c.email.toLowerCase().includes(lowerQuery)
     );
 
-    console.log(`=== Search Results for "${query}" ===`);
+    console.log(`----Search Results for "${query}"----`);
     if (results.length === 0) {
         console.log(`No contacts found matching "${query}"`);
         return;
@@ -57,9 +53,6 @@ async function searchContacts(query) {
     });
 }
 
-/**
- * מחיקת איש קשר לפי אימייל
- */
 async function deleteContact(email) {
     const contacts = await loadContactsFile();
     console.log(`✓ Loaded ${contacts.length} contacts`);
